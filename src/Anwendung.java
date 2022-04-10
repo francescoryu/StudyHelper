@@ -12,22 +12,27 @@ public class Anwendung extends JFrame {
     public JButton clear;
     public JTextField addTaskField;
     public JScrollPane scrollPane;
-    int cntr = 1;
+    public int cntr = 1;
+    public JCheckBox checkBox;
+
 
     public Anwendung() throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-
-
         UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         this.getContentPane().setLayout(null);
         this.getContentPane().setBackground(Color.decode("#b5b8ff"));
 
+        addTaskField = new JTextField();
+        area = new JTextArea();
         anwendungLabel = new JLabel("BucketList");
-        anwendungLabel.setBounds(10, 10, 200, 40);
+        checkBox = new JCheckBox("MOIN");
+        clear = new JButton("Löschen");
+        scrollPane = new JScrollPane(area);
+
+        anwendungLabel.setBounds(110, 10, 200, 40);
         anwendungLabel.setFont(new Font("Serif", Font.BOLD, 30));
         this.add(anwendungLabel);
 
-        addTaskField = new JTextField();
-        addTaskField.setBounds(5, 55, 250, 30);
+        addTaskField.setBounds(5, 55, 360, 30);
         addTaskField.setFont(new Font("Serif", Font.BOLD, 15));
         addTaskField.addKeyListener(new KeyAdapter() {
             @Override
@@ -40,18 +45,18 @@ public class Anwendung extends JFrame {
                 }
             }
         });
-        this.add(addTaskField);
 
-        scrollPane = new JScrollPane(area);
+        this.add(addTaskField);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setBounds(275, 55, 360, 280);
+        scrollPane.setBounds(5, 90, 360, 280);
         scrollPane.setFont(new Font("Serif", Font.BOLD, 15));
 
-        area = new JTextArea();
-        area.setBounds(275, 55, 360, 280);
+        area.setBounds(5, 90, 360, 280);
         area.setFont(new Font("Serif", Font.BOLD, 15));
         area.setEditable(false);
         area.setLineWrap(true);
+        this.add(scrollPane);
+
 
         try {
             File myObj = new File("todo.txt");
@@ -67,27 +72,9 @@ public class Anwendung extends JFrame {
             e.printStackTrace();
         }
 
-
-
-
-        scrollPane = new JScrollPane(area);
-        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-        scrollPane.setBounds(275, 55, 360, 280);
-        scrollPane.setFont(new Font("Serif", Font.BOLD, 15));
-        this.add(scrollPane);
-
-        add = new JButton("Hinzufügen");
-        add.setBounds(5, 295, 100, 40);
-        add.setFont(new Font("Serif", Font.BOLD, 12));
-
-
-        this.add(add);
-
-        clear = new JButton("Löschen");
-        clear.setBounds(110, 295, 100, 40);
+        clear.setBounds(5, 380, 100, 40);
         clear.setFont(new Font("Serif", Font.BOLD, 12));
         clear.addActionListener(e ->
-
         {
             area.setText(null);
             cntr = 1;
@@ -96,7 +83,7 @@ public class Anwendung extends JFrame {
 
         setTitle("TODO");
 
-        setSize(700, 400);
+        setSize(1000, 650);
 
         setVisible(true);
 
