@@ -7,8 +7,7 @@ import java.io.IOException;
 
 public class Anwendung extends JFrame {
     public JTextArea area;
-    public JLabel anwendungLabel;
-    public JButton add;
+    public JLabel todoListLabel;
     public JButton clear;
     public JTextField addTaskField;
     public JScrollPane scrollPane;
@@ -23,17 +22,18 @@ public class Anwendung extends JFrame {
 
         addTaskField = new JTextField();
         area = new JTextArea();
-        anwendungLabel = new JLabel("BucketList");
+        todoListLabel = new JLabel("ToDo-List");
         checkBox = new JCheckBox("MOIN");
         clear = new JButton("Löschen");
         scrollPane = new JScrollPane(area);
 
-        anwendungLabel.setBounds(110, 10, 200, 40);
-        anwendungLabel.setFont(new Font("Serif", Font.BOLD, 30));
-        this.add(anwendungLabel);
+        todoListLabel.setBounds(110, 10, 200, 40);
+        todoListLabel.setBounds(110, 10, 200, 40);
+        todoListLabel.setFont(new Font("Geneva", Font.BOLD, 30));
+        this.add(todoListLabel);
 
         addTaskField.setBounds(5, 55, 360, 30);
-        addTaskField.setFont(new Font("Serif", Font.BOLD, 15));
+        addTaskField.setFont(new Font("Geneva", Font.BOLD, 15));
         addTaskField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -49,10 +49,10 @@ public class Anwendung extends JFrame {
         this.add(addTaskField);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
         scrollPane.setBounds(5, 90, 360, 280);
-        scrollPane.setFont(new Font("Serif", Font.BOLD, 15));
+        scrollPane.setFont(new Font("Geneva", Font.BOLD, 15));
 
         area.setBounds(5, 90, 360, 280);
-        area.setFont(new Font("Serif", Font.BOLD, 15));
+        area.setFont(new Font("Geneva", Font.BOLD, 15));
         area.setEditable(false);
         area.setLineWrap(true);
         this.add(scrollPane);
@@ -73,7 +73,7 @@ public class Anwendung extends JFrame {
         }
 
         clear.setBounds(5, 380, 100, 40);
-        clear.setFont(new Font("Serif", Font.BOLD, 12));
+        clear.setFont(new Font("Geneva", Font.BOLD, 15));
         clear.addActionListener(e ->
         {
             area.setText(null);
@@ -81,16 +81,11 @@ public class Anwendung extends JFrame {
         });
         this.add(clear);
 
-        setTitle("TODO");
-
+        setTitle("Program");
         setSize(1000, 650);
-
         setVisible(true);
-
         setResizable(false);
-
         setLocation(350, 250);
-
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
     }

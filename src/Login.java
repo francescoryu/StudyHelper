@@ -31,27 +31,27 @@ public class Login extends JFrame {
 
         loginLabel = new JLabel("Anmeldung");
         loginLabel.setBounds(10, 10, 200, 40);
-        loginLabel.setFont(new Font("Serif", Font.BOLD, 30));
+        loginLabel.setFont(new Font("Geneva", Font.BOLD, 30));
 
         nameText = new JLabel("Name:");
         nameText.setBounds(30, 80, 200, 40);
-        nameText.setFont(new Font("Serif", Font.BOLD, 20));
+        nameText.setFont(new Font("Geneva", Font.BOLD, 20));
 
         pwdText = new JLabel("Passwort:");
         pwdText.setBounds(30, 120, 200, 40);
-        pwdText.setFont(new Font("Serif", Font.BOLD, 20));
+        pwdText.setFont(new Font("Geneva", Font.BOLD, 20));
 
         name = new JTextField();
         name.setBounds(130, 80, 300, 40);
-        name.setFont(new Font("Serif", Font.BOLD, 20));
+        name.setFont(new Font("Geneva", Font.BOLD, 20));
 
         pwd = new JPasswordField();
         pwd.setBounds(130, 120, 300, 40);
-        pwd.setFont(new Font("Serif", Font.BOLD, 20));
+        pwd.setFont(new Font("Geneva", Font.BOLD, 20));
 
         login = new JButton("Anmelden");
-        login.setBounds(180, 200, 100, 40);
-        login.setFont(new Font("Serif", Font.BOLD, 15));
+        login.setBounds(290, 200, 140, 40);
+        login.setFont(new Font("Geneva", Font.BOLD, 15));
 
         login.addActionListener(e -> {
             if (name.getText().equals(userName) && pwd.getText().equals(passWord)) {
@@ -73,6 +73,7 @@ public class Login extends JFrame {
 
         setSize(500, 300);
         setVisible(true);
+        setLocation(350, 200);
         setResizable(false);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
     }
