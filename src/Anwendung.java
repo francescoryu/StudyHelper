@@ -2,6 +2,11 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.TimerTask;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -17,6 +22,7 @@ public class Anwendung extends JFrame {
     public JButton clear;
     public JButton startTimer;
     public JTextField addTaskField;
+    public JTextField inputTime;
     public JScrollPane scrollPane;
     public int cntr = 1;
     public static String fileText;
@@ -31,6 +37,7 @@ public class Anwendung extends JFrame {
 
 
         addTaskField = new JTextField();
+        inputTime = new JTextField();
         area = new JTextArea();
         todoListLabel = new JLabel("ToDo-List");
         timerLabel = new JLabel("Timer");
@@ -118,35 +125,46 @@ public class Anwendung extends JFrame {
 
         area.setText(fileText);
 
+        inputTime.setBounds(600, 160, 130, 30);
+        inputTime.setFont(new Font("Geneva", Font.BOLD, 20));
+        this.add(inputTime);
+
         startTimer.setBounds(450, 200, 115, 45);
         startTimer.setFont(new Font("Geneva", Font.BOLD, 15));
         this.add(startTimer);
         startTimer.addActionListener(e -> {
-            final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-            final Runnable runnable = new Runnable() {
-                int countdownStarter = 2400;
-                String currentTime;
+                for(int minutes = 0; minutes < Integer.parseInt(inputTime.getText()); minutes++)
+                {
+                    for(int seconds = 0; seconds < 60; seconds++)
+                    {
 
-                public void run() {
-                    timerPassed.setText("Secs: " + countdownStarter);
-                    countdownStarter--;
+                        try {
+                            TimeUnit.SECONDS.sleep(1);
+                        } catch (InterruptedException ex) {
+                            ex.printStackTrace();
+                        }
+                        timerPassed.setText(minutes + ":" + seconds);
 
-                    if (countdownStarter < 0) {
-                        timerPassed.setText("Done");
-                        scheduler.shutdown();
-                    }
                 }
-            };
-            scheduler.scheduleAtFixedRate(runnable, 0, 1, SECONDS);
+            }
         });
+
         setTitle("Program");
+
         setSize(1000, 650);
+
         setVisible(true);
+
         setResizable(false);
+
         setLocation(350, 250);
+
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
     }
+
+
+
 
     public void readFile() throws IOException {
         FileReader fileReader = new FileReader("todo.txt");
