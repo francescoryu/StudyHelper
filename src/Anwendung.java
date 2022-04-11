@@ -2,7 +2,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+import java.util.TimerTask;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
+
+import static java.util.concurrent.TimeUnit.SECONDS;
 
 public class Anwendung extends JFrame {
     public JTextArea area;
@@ -104,8 +109,8 @@ public class Anwendung extends JFrame {
         });
         this.add(clear);
 
-        timerPassed.setBounds(500, 200, 115, 45);
-        timerPassed.setFont(new Font("Geneva", Font.BOLD, 40));
+        timerPassed.setBounds(450, 160, 130, 30);
+        timerPassed.setFont(new Font("Geneva", Font.BOLD, 20));
         timerPassed.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.add(timerPassed);
 
@@ -113,31 +118,26 @@ public class Anwendung extends JFrame {
 
         area.setText(fileText);
 
-        startTimer.setBounds(600, 200, 115, 45);
+        startTimer.setBounds(450, 200, 115, 45);
+        startTimer.setFont(new Font("Geneva", Font.BOLD, 15));
         this.add(startTimer);
         startTimer.addActionListener(e -> {
-            boolean x = true;
-            long displayMinutes = 0;
-            long starttime = System.currentTimeMillis();
+            final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+            final Runnable runnable = new Runnable() {
+                int countdownStarter = 2400;
+                String currentTime;
 
-            while (x) {
-                try {
-                    TimeUnit.SECONDS.sleep(1);
-                } catch (InterruptedException ex) {
-                    ex.printStackTrace();
-                }
-                long timepassed = System.currentTimeMillis() - starttime;
-                long secondspassed = timepassed / 1000;
-                if (secondspassed == 60) {
-                    secondspassed = 0;
-                    starttime = System.currentTimeMillis();
-                }
-                if ((secondspassed % 60) == 0) {
-                    displayMinutes++;
-                    timerPassed.setText(displayMinutes + ":" + secondspassed);
-                }
-            }
+                public void run() {
+                    timerPassed.setText("Secs: " + countdownStarter);
+                    countdownStarter--;
 
+                    if (countdownStarter < 0) {
+                        timerPassed.setText("Done");
+                        scheduler.shutdown();
+                    }
+                }
+            };
+            scheduler.scheduleAtFixedRate(runnable, 0, 1, SECONDS);
         });
         setTitle("Program");
         setSize(1000, 650);
