@@ -21,7 +21,7 @@ public class Login extends JFrame {
     final String passWord = "180621";
 
     public Login(Anwendung anwendung) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        anwendung.setVisible(false);
+        anwendung.setVisible(true);
         UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         this.getContentPane().setLayout(null);
         this.getContentPane().setBackground(Color.decode("#b5b8ff"));
