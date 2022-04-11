@@ -1,9 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 
 public class Anwendung extends JFrame {
     public JTextArea area;
@@ -13,12 +11,14 @@ public class Anwendung extends JFrame {
     public JScrollPane scrollPane;
     public int cntr = 1;
     public JCheckBox checkBox;
+    public static String fileText;
 
 
-    public Anwendung() throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+    public Anwendung() throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
         UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         this.getContentPane().setLayout(null);
         this.getContentPane().setBackground(Color.decode("#b5b8ff"));
+
 
         addTaskField = new JTextField();
         area = new JTextArea();
@@ -26,6 +26,7 @@ public class Anwendung extends JFrame {
         checkBox = new JCheckBox("MOIN");
         clear = new JButton("Löschen");
         scrollPane = new JScrollPane(area);
+
 
         todoListLabel.setBounds(110, 10, 200, 40);
         todoListLabel.setBounds(110, 10, 200, 40);
@@ -42,6 +43,16 @@ public class Anwendung extends JFrame {
                     area.append(cntr + ". " + text + "\n");
                     addTaskField.setText("");
                     cntr++;
+                    File file = new File("todo.txt");
+
+                    PrintWriter printWriter = null;
+                    try {
+                        printWriter = new PrintWriter(file);
+                    } catch (FileNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
+                    printWriter.println(area.getText());
+                    printWriter.close();
                 }
             }
         });
@@ -57,29 +68,30 @@ public class Anwendung extends JFrame {
         area.setLineWrap(true);
         this.add(scrollPane);
 
-
-        try {
-            File myObj = new File("todo.txt");
-            FileWriter fw = new FileWriter(myObj.getAbsoluteFile(), true);
-            area.write(fw);
-            if (myObj.createNewFile()) {
-                System.out.println("File created: " + myObj.getName());
-            } else {
-                System.out.println("File already exists.");
-            }
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-
         clear.setBounds(5, 380, 100, 40);
         clear.setFont(new Font("Geneva", Font.BOLD, 15));
         clear.addActionListener(e ->
         {
             area.setText(null);
             cntr = 1;
+            File file = new File("todo.txt");
+
+            PrintWriter printWriter = null;
+            try {
+                printWriter = new PrintWriter(file);
+            } catch (FileNotFoundException ex) {
+                ex.printStackTrace();
+            }
+            printWriter.println(area.getText());
+            printWriter.close();
+
+
         });
         this.add(clear);
+
+        this.readFile();
+
+        area.setText(fileText);
 
         setTitle("Program");
         setSize(1000, 650);
@@ -88,5 +100,17 @@ public class Anwendung extends JFrame {
         setLocation(350, 250);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
 
+    }
+
+    public void readFile() throws IOException {
+        FileReader fileReader = new FileReader("todo.txt");
+        BufferedReader br = new BufferedReader(fileReader);
+        String str = br.readLine();
+        while (str != null) {
+            fileText = fileText + str + "\n";
+            str = br.readLine();
+        }
+        System.out.println(fileText);
+        fileReader.close();
     }
 }
