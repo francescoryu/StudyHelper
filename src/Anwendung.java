@@ -13,17 +13,25 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
+import static javax.swing.JOptionPane.INFORMATION_MESSAGE;
 
 public class Anwendung extends JFrame {
+
+    public JLabel blackLine;
+
     public JTextArea area;
+
     public JLabel todoListLabel;
     public JLabel timerLabel;
     public JLabel timerPassed;
+
     public JButton clear;
     public JButton startTimer;
     public JTextField addTaskField;
     public JTextField inputTime;
+
     public JScrollPane scrollPane;
+
     public int cntr = 1;
     public static String fileText;
     public JComboBox<String> comboBox;
@@ -52,7 +60,7 @@ public class Anwendung extends JFrame {
         comboBox.setFont(new Font("Geneva", Font.BOLD, 15));
         this.add(comboBox);
 
-        timerLabel.setBounds(450, 10, 200, 40);
+        timerLabel.setBounds(470, 10, 200, 40);
         timerLabel.setFont(new Font("Geneva", Font.BOLD, 30));
         this.add(timerLabel);
 
@@ -95,7 +103,7 @@ public class Anwendung extends JFrame {
         area.setLineWrap(true);
         this.add(scrollPane);
 
-        clear.setBounds(5, 380, 100, 40);
+        clear.setBounds(5, 380, 140, 30);
         clear.setFont(new Font("Geneva", Font.BOLD, 15));
         clear.addActionListener(e ->
         {
@@ -114,56 +122,58 @@ public class Anwendung extends JFrame {
 
 
         });
+
         this.add(clear);
-
-        timerPassed.setBounds(450, 160, 130, 30);
-        timerPassed.setFont(new Font("Geneva", Font.BOLD, 20));
-        timerPassed.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        this.add(timerPassed);
-
         this.readFile();
-
         area.setText(fileText);
 
-        inputTime.setBounds(600, 160, 130, 30);
+        inputTime.setBounds(450, 100, 140, 30);
         inputTime.setFont(new Font("Geneva", Font.BOLD, 20));
+        inputTime.setText("40");
+
         this.add(inputTime);
 
-        startTimer.setBounds(450, 200, 115, 45);
+        timerPassed.setBounds(450, 140, 140, 30);
+        timerPassed.setFont(new Font("Geneva", Font.BOLD, 15));
+        timerPassed.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+        timerPassed.setText("0 Min 0 Secs");
+        this.add(timerPassed);
+
+        startTimer.setBounds(450, 180, 140, 30);
         startTimer.setFont(new Font("Geneva", Font.BOLD, 15));
         this.add(startTimer);
-        startTimer.addActionListener(e -> {
-                for(int minutes = 0; minutes < Integer.parseInt(inputTime.getText()); minutes++)
-                {
-                    for(int seconds = 0; seconds < 60; seconds++)
-                    {
-
-                        try {
-                            TimeUnit.SECONDS.sleep(1);
-                        } catch (InterruptedException ex) {
-                            ex.printStackTrace();
-                        }
-                        timerPassed.setText(minutes + ":" + seconds);
+        startTimer.addActionListener(e -> new Thread(() -> {
+            for (int minutes = 0; minutes < Integer.parseInt(inputTime.getText()); minutes++) {
+                inputTime.setEditable(false);
+                startTimer.setEnabled(false);
+                comboBox.setEnabled(false);
+                for (int seconds = 0; seconds < 60; seconds++) {
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException ex) {
+                        ex.printStackTrace();
+                    }
+                    timerPassed.setText(minutes + " Min " + seconds + " Secs");
+                    System.out.println(minutes + ":" + seconds);
 
                 }
+
             }
-        });
+            comboBox.setEnabled(true);
+            inputTime.setEditable(true);
+            startTimer.setEnabled(true);
+            JOptionPane.showMessageDialog(this, "Time's up!! Do a break :)",
+                    "TIMER", INFORMATION_MESSAGE);
+            timerPassed.setText("0 Min 0 Secs");
+        }).start());
 
         setTitle("Program");
-
         setSize(1000, 650);
-
         setVisible(true);
-
         setResizable(false);
-
         setLocation(350, 250);
-
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
     }
-
-
 
 
     public void readFile() throws IOException {
