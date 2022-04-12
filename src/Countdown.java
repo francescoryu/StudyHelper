@@ -10,7 +10,7 @@ public class Countdown extends JFrame {
     public JLabel timerPassed;
     public JComboBox<String> comboBox;
 
-    public String[] whatToDo = {"Study", "Homework", "Something else"};
+    public String[] whatToDo = {"Study", "Homework", "Other"};
 
     public Countdown() throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
         UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
