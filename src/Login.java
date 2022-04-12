@@ -20,8 +20,8 @@ public class Login extends JFrame {
     final String userName = "Dianyra";
     final String passWord = "180621";
 
-    public Login(Anwendung anwendung) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        anwendung.setVisible(true);
+    public Login(Menu menu) throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException {
+        menu.setVisible(true);
         UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         this.getContentPane().setLayout(null);
         this.getContentPane().setBackground(Color.decode("#b5b8ff"));
@@ -29,7 +29,7 @@ public class Login extends JFrame {
         name = new JTextField();
         pwd = new JPasswordField();
 
-        loginLabel = new JLabel("Anmeldung");
+        loginLabel = new JLabel("Login");
         loginLabel.setBounds(10, 10, 200, 40);
         loginLabel.setFont(new Font("Geneva", Font.BOLD, 30));
 
@@ -37,7 +37,7 @@ public class Login extends JFrame {
         nameText.setBounds(30, 80, 200, 40);
         nameText.setFont(new Font("Geneva", Font.BOLD, 20));
 
-        pwdText = new JLabel("Passwort:");
+        pwdText = new JLabel("Password:");
         pwdText.setBounds(30, 120, 200, 40);
         pwdText.setFont(new Font("Geneva", Font.BOLD, 20));
 
@@ -49,16 +49,16 @@ public class Login extends JFrame {
         pwd.setBounds(130, 120, 300, 40);
         pwd.setFont(new Font("Geneva", Font.BOLD, 20));
 
-        login = new JButton("Anmelden");
+        login = new JButton("Login");
         login.setBounds(290, 200, 140, 40);
         login.setFont(new Font("Geneva", Font.BOLD, 15));
 
         login.addActionListener(e -> {
             if (name.getText().equals(userName) && pwd.getText().equals(passWord)) {
                 this.setVisible(false);
-                anwendung.setVisible(true);
+                menu.setVisible(true);
             } else {
-                showMessageDialog(null, "Name und/oder Passwort falsch!", "Ungültig", ERROR_MESSAGE);
+                showMessageDialog(null, "Name and/or Password wrong!", "Invalid", ERROR_MESSAGE);
             }
         });
 
@@ -69,7 +69,7 @@ public class Login extends JFrame {
         this.add(nameText);
         this.add(pwdText);
 
-        setTitle("Anmeldung");
+        setTitle("Login");
 
         setSize(500, 300);
         setVisible(true);
