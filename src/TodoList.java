@@ -1,7 +1,11 @@
+import methods.DataHandler;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.*;
+
+import static methods.DataHandler.fileText;
 
 public class TodoList extends JFrame {
 
@@ -10,15 +14,17 @@ public class TodoList extends JFrame {
     public JLabel todoListLabel;
 
     public JButton clear;
+    public JButton saveButton;
 
     public JTextField addTaskField;
 
     public JScrollPane scrollPane;
 
     public int cntr = 1;
-    public static String fileText;
 
     public TodoList() throws UnsupportedLookAndFeelException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
+
+        DataHandler dataHandler = new DataHandler();
 
         UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         this.getContentPane().setLayout(null);
@@ -42,9 +48,8 @@ public class TodoList extends JFrame {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     String text = addTaskField.getText();
-                    area.append(cntr + ". " + text + "\n");
+                    area.append(text + "\n");
                     addTaskField.setText("");
-                    cntr++;
                     File file = new File("todo.txt");
 
                     PrintWriter printWriter = null;
@@ -74,7 +79,7 @@ public class TodoList extends JFrame {
         clear.setFont(new Font("Geneva", Font.BOLD, 15));
         clear.addActionListener(e ->
         {
-            area.setText(null);
+            area.setText("");
             cntr = 1;
             File file = new File("todo.txt");
 
@@ -91,7 +96,7 @@ public class TodoList extends JFrame {
         });
 
         this.add(clear);
-        this.readFile();
+        dataHandler.readFile();
         area.setText(fileText);
 
         setTitle("ToDO-List");
@@ -101,16 +106,4 @@ public class TodoList extends JFrame {
         setLocation(350, 250);
     }
 
-
-    public void readFile() throws IOException {
-        FileReader fileReader = new FileReader("todo.txt");
-        BufferedReader br = new BufferedReader(fileReader);
-        String str = br.readLine();
-        while (str != null) {
-            fileText = fileText + str + "\n";
-            str = br.readLine();
-        }
-        System.out.println(fileText);
-        fileReader.close();
-    }
 }
